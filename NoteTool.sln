@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoteTool", "NoteTool\NoteTool.csproj", "{80E3CF55-4A59-4133-8B16-96BC8F2E9736}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{5D78F030-584C-4054-B6CA-2333CD552887}"
+ProjectSection(SolutionItems) = preProject
+	build.sh = build.sh
+	.gitignore = .gitignore
+EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80E3CF55-4A59-4133-8B16-96BC8F2E9736}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80E3CF55-4A59-4133-8B16-96BC8F2E9736}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80E3CF55-4A59-4133-8B16-96BC8F2E9736}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80E3CF55-4A59-4133-8B16-96BC8F2E9736}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
