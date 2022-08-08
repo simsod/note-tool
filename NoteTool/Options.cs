@@ -27,5 +27,11 @@ namespace NoteTool {
     [Verb("search", HelpText = "Searches the notes folder")]
     class SearchNotesOption {
         [Value(0)]public string? Query { get; set; }
+        [Option('c',"count", HelpText = "The maximum number of items to display", Default = 20)] public int Count { get; set; } = 20;
+    }
+
+    [Verb("index", HelpText = "Indexes all notes in the folder")]
+    class SearchIndexOption {
+        
     }
 }

@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>new-note</ToolCommandName>
         <PackageOutputPath>../artifacts</PackageOutputPath>
@@ -10,10 +10,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="CommandLineParser" Version="2.8.0" />
-      <PackageReference Include="Handlebars.net" Version="1.10.1" />
-      <PackageReference Include="Spectre.Console" Version="0.33" />
-      <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.1.4" />
+      <PackageReference Include="CommandLineParser" Version="2.9.1" />
+      <PackageReference Include="Handlebars.net" Version="2.1.2" />
+      <PackageReference Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00016" />
+      <PackageReference Include="Spectre.Console" Version="0.44.0" />
+      <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.7" />
+      <PackageReference Include="Lucene.Net" Version="4.8.0-beta00016" />
+      <PackageReference Include="System.IO.FileSystem.AccessControl" Version="6.0.0-preview.5.21301.5" />
     </ItemGroup>
     
     <ItemGroup>
