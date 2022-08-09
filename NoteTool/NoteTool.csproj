@@ -4,22 +4,23 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>net6.0</TargetFramework>
         <PackAsTool>true</PackAsTool>
-        <ToolCommandName>new-note</ToolCommandName>
+        <ToolCommandName>note</ToolCommandName>
         <PackageOutputPath>../artifacts</PackageOutputPath>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="CommandLineParser" Version="2.9.1" />
-      <PackageReference Include="Handlebars.net" Version="2.1.2" />
-      <PackageReference Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00016" />
-      <PackageReference Include="Spectre.Console" Version="0.44.0" />
-      <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.7" />
-      <PackageReference Include="Lucene.Net" Version="4.8.0-beta00016" />
-      <PackageReference Include="Lucene.Net.QueryParser" Version="4.8.0-beta00016" />
+        <PackageReference Include="Spectre.Console" Version="0.44.1-preview.0.29" />
+        <PackageReference Include="Spectre.Console.Cli" Version="0.44.1-preview.0.29" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+        <PackageReference Include="Handlebars.net" Version="2.1.2" />
+        <PackageReference Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00016" />
+        <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.7" />
+        <PackageReference Include="Lucene.Net" Version="4.8.0-beta00016" />
+        <PackageReference Include="Lucene.Net.QueryParser" Version="4.8.0-beta00016" />
         <PackageReference Include="Lucene.Net.Highlighter" Version="4.8.0-beta00016" />
     </ItemGroup>
-    
+
     <ItemGroup>
         <EmbeddedResource Include="Templates\*.md" />
     </ItemGroup>

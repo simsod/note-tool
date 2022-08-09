@@ -18,10 +18,10 @@ using Directory = System.IO.Directory;
 namespace NoteTool.Services;
 
 public class SearchService {
-    private readonly ToolConfiguration _config;
+    private readonly Configuration _config;
     private const LuceneVersion AppLuceneversion = LuceneVersion.LUCENE_48;
 
-    public SearchService(ToolConfiguration config) {
+    public SearchService(Configuration config) {
         _config = config;
     }
 
