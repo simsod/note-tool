@@ -34,4 +34,11 @@ namespace NoteTool {
     class SearchIndexOption {
         
     }
+
+
+    [Verb("new", HelpText = "Created a new note of the specified type")]
+    class NewOptions {
+        
+    }
+    
 }

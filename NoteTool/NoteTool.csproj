@@ -16,7 +16,8 @@
       <PackageReference Include="Spectre.Console" Version="0.44.0" />
       <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.7" />
       <PackageReference Include="Lucene.Net" Version="4.8.0-beta00016" />
-      <PackageReference Include="System.IO.FileSystem.AccessControl" Version="6.0.0-preview.5.21301.5" />
+      <PackageReference Include="Lucene.Net.QueryParser" Version="4.8.0-beta00016" />
+        <PackageReference Include="Lucene.Net.Highlighter" Version="4.8.0-beta00016" />
     </ItemGroup>
     
     <ItemGroup>

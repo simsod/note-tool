@@ -21,9 +21,9 @@ static partial class Program {
         table.Border = TableBorder.Rounded;
         table.AddColumns("FileName", "Line#", "Created","LastModified", "Context");
 
-        var result = search.Search(opts.Query);
+        var result = search.Search(opts.Query,opts.Count);
         foreach (var file in result) {
-            table.AddRow(file.FileName, $"L#{file.LineNumber}", file.Created.ToString(),file.Modified.ToString(),file.Content.EscapeMarkup());
+            table.AddRow(new Markup(file.FileName), new Markup($"L#{file.LineNumber}"), new Markup(file.Created.ToString()),new Markup(file.Modified.ToString()),new Markup(file.Content));
         }
 
         AnsiConsole.Write(table);
