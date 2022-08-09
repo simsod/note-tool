@@ -65,6 +65,16 @@ static class Program {
                 .WithExample(new[] { "configure", "-o","nano" })
                 .WithExample(new[] { "configure", "-p","c:\\notes" });
 
+            config.AddBranch("template", (template) => {
+                template.SetDescription("Some basic templating operations");
+                
+                template.AddCommand<TemplateEditCommand>("edit");
+                template.AddCommand<TemplateInfoCommand>("info");
+                template.AddCommand<TemplateListCommand>("list");
+            });
+            
+
+
         });
         return app.Run(args);
     }

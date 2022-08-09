@@ -41,8 +41,8 @@ namespace NoteTool {
             if (string.IsNullOrEmpty(config.IndexPath))
                 config.IndexPath = DefaultIndexPath;
 
-            //if (!Directory.Exists(config.TemplatesPath))
-                //WriteTemplates(config);
+            if (!Directory.Exists(config.TemplatesPath))
+                Directory.CreateDirectory(config.TemplatesPath);
         
             if (!Directory.Exists(config.IndexPath))
                 Directory.CreateDirectory(config.IndexPath);
