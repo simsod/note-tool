@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using HandlebarsDotNet;
@@ -14,11 +15,17 @@ public class TemplateService {
     }
 
     public Template[] GetTemplates() {
+        if (string.IsNullOrEmpty(_config.TemplatesPath))
+            throw new InvalidOperationException("Templates path was not configured, or configured to be empty.");
+        
         var templates = Directory.GetFiles(_config.TemplatesPath, "*.md");
         return templates.Select(t => new Template(t)).ToArray();
     }
 
     public void EnsureTemplates(bool force = false) {
+        if (string.IsNullOrEmpty(_config.TemplatesPath))
+            throw new InvalidOperationException("Templates path was not configured, or configured to be empty.");
+        
         if (!Directory.Exists(_config.TemplatesPath))
             Directory.CreateDirectory(_config.TemplatesPath);
 
@@ -50,20 +57,21 @@ public class Template {
         FilePath = templatePath;
     }
 
-    public string Name { get; set; }
-    public string FilePath { get; set; }
+    public string Name { get; }
+    public string FilePath { get; }
 
 
-    private string _template;
+    private string? _template;
 
     private string LoadTemplate() {
         if (!string.IsNullOrEmpty(_template))
             return _template;
+        
         _template = File.ReadAllText(FilePath);
         return _template;
     }
 
-    public string Execute(object args) {
+    public string Render(object args) {
         var strTemplate = LoadTemplate();
 
         var hbConf = new HandlebarsConfiguration {

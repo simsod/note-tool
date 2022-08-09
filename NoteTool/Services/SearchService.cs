@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
@@ -33,12 +32,18 @@ public class SearchService {
     }
 
     public int Index(bool deleteIndex = true) {
+        if (string.IsNullOrEmpty(_config.IndexPath))
+            throw new InvalidOperationException("IndexPath was not configured, or configured to be empty.");
+        
         if (deleteIndex) {
             if (Directory.Exists(_config.IndexPath))
                 Directory.Delete(_config.IndexPath, true);
 
             Directory.CreateDirectory(_config.IndexPath);
         }
+
+        if (string.IsNullOrEmpty(_config.Path))
+            throw new InvalidOperationException("Note storage path was not configured, or configured to be empty.");
 
         using var writer = GetWriter();
         var dir = new DirectoryInfo(_config.Path);
@@ -51,14 +56,14 @@ public class SearchService {
                 Content = File.ReadAllText(file.FullName),
                 FileName = file.Name
             };
-            var fieldType = new FieldType(TextField.TYPE_STORED) {
-                StoreTermVectors = true,
-                StoreTermVectorOffsets = true
-            }.Freeze();
+            // var fieldType = new FieldType(TextField.TYPE_STORED) {
+            //     StoreTermVectors = true,
+            //     StoreTermVectorOffsets = true
+            // }.Freeze();
             
             var doc = new Document {
                 new TextField("content", source.Content, Field.Store.YES),
-                new Field("content-tv", source.Content,fieldType),
+                //new Field("content-tv", source.Content,fieldType),
                 new StringField("filename", source.FileName, Field.Store.YES),
                 new StringField("created", source.Created.ToString("yyyyMMddHHmmss"), Field.Store.YES),
                 new StringField("modified", source.Modified.ToString("yyyyMMddHHmmss"), Field.Store.YES),
@@ -77,8 +82,6 @@ public class SearchService {
         public DateTime Modified { get; set; }
         public string Content { get; set; } = string.Empty;
         public string FileName { get; set; } = string.Empty;
-        public float Score { get; set; }
-        public int LineNumber { get; set; }
     }
 
     public NoteDocument[] Search(string searchQuery, int pageSize = 20) {
@@ -108,7 +111,6 @@ public class SearchService {
             
             
             var doc = new NoteDocument {
-                Score = hit.Score,
                 FileName = foundDoc.Get("filename"),
                 Created = DateTime.ParseExact(foundDoc.Get("created"), "yyyyMMddHHmmss", CultureInfo.InvariantCulture),
                 Modified = DateTime.ParseExact(foundDoc.Get("modified"), "yyyyMMddHHmmss", CultureInfo.InvariantCulture),

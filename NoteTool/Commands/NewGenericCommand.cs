@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -19,20 +20,26 @@ public class NewGenericCommand : Command<NewGenericCommand.NewGenericSettings> {
     }
 
     public class NewGenericSettings : NewSettings {
-        [CommandArgument(0, "<TOPIC>")] public string Topic { get; set; }
+        [CommandArgument(0, "<TOPIC>")] 
+        public string? Topic { get; set; }
     }
 
-    public override int Execute(CommandContext context, NewGenericSettings settings) {
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
+    public record GenericTemplateModel {
+        public string? Date { get; init; }
+        public string? Topic { get; init; }
+        public string? CreatedDate { get; init; }
+    }
+    public override int Execute([NotNull]CommandContext context,[NotNull] NewGenericSettings settings) {
         var culture = new CultureInfo("sv-SE");
-        var data = new {
+        var data = new GenericTemplateModel {
             Date = DateTime.Now.ToString("yyyy-MM-dd"),
-            // ReSharper disable once RedundantAnonymousTypePropertyName
             Topic = settings.Topic,
             CreatedDate = DateTime.Now.ToString(culture),
         };
 
         var template = _templateService.GetTemplates().Single(x => x.Name == context.Name);
-        var result = template.Execute(data);
+        var result = template.Render(data);
         var fileName = $"{DateTime.Now:yyyy-MM-dd} - {settings.Topic}.md";
         var targetFile = Path.Join(_config.Path, fileName);
 

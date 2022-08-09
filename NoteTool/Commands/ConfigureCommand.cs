@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using NoteTool.Services;
 using Spectre.Console;
 using Spectre.Console.Cli;
@@ -31,7 +32,7 @@ public class ConfigureCommand : Command<ConfigureCommand.ConfigureCommandSetting
         public string? OpenWith { get; set; }
     }
 
-    public override int Execute(CommandContext context, ConfigureCommandSettings settings) {
+    public override int Execute([NotNull]CommandContext context, [NotNull]ConfigureCommandSettings settings) {
         if (!string.IsNullOrEmpty(settings.Path))
             _config.Path = settings.Path;
 
@@ -48,7 +49,7 @@ public class ConfigureCommand : Command<ConfigureCommand.ConfigureCommandSetting
             AnsiConsole.MarkupLine("Templates have been reverted to default");
         }
 
-        Program.WriteConfiguration(_config);
+        _config.Write();
 
         return (int)ExitCode.Success;
         
