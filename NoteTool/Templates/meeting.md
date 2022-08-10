@@ -1,3 +1,3 @@
 ﻿# {{Topic}}
-Skapad: {{CreatedDate}}
+Created: {{CreatedDate}}
 

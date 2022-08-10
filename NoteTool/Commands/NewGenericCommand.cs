@@ -31,11 +31,10 @@ public class NewGenericCommand : Command<NewGenericCommand.NewGenericSettings> {
         public string? CreatedDate { get; init; }
     }
     public override int Execute([NotNull]CommandContext context,[NotNull] NewGenericSettings settings) {
-        var culture = new CultureInfo("sv-SE");
         var data = new GenericTemplateModel {
             Date = DateTime.Now.ToString("yyyy-MM-dd"),
             Topic = settings.Topic,
-            CreatedDate = DateTime.Now.ToString(culture),
+            CreatedDate = DateTime.Now.ToString(CultureInfo.CurrentCulture),
         };
 
         var template = _templateService.GetTemplates().Single(x => x.Name == context.Name);

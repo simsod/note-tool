@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Text;
 using NoteTool.Services;
 using Spectre.Console;
 using Spectre.Console.Cli;
@@ -10,9 +12,11 @@ namespace NoteTool.Commands;
 
 public class NewStandupCommand : Command<NewStandupCommand.NewStandupSettings> {
     private readonly TemplateService _templateService;
+    private readonly Configuration _config;
 
-    public NewStandupCommand(TemplateService templateService) {
+    public NewStandupCommand(TemplateService templateService, Configuration config) {
         _templateService = templateService;
+        _config = config;
     }
 
     public class NewStandupSettings : NewSettings {
@@ -30,16 +34,22 @@ public class NewStandupCommand : Command<NewStandupCommand.NewStandupSettings> {
     public override int Execute([NotNull]CommandContext context, [NotNull]NewStandupSettings settings) {
         var template = _templateService.GetTemplates().Single(x => x.Name == "standup");
 
-        var culture = new CultureInfo("sv-SE");
+        var culture = CultureInfo.CurrentCulture;
         var week = culture.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday);
         var data = new StandupTemplateModel {
-            Date = DateTime.Now.ToString("yyyy-MM-dd"),
+            Date = DateTime.Now.ToShortDateString(),
             WeekNumber = week,
             WeekDays = culture.DateTimeFormat.DayNames.Skip(1).Take(5).Select(culture.TextInfo.ToTitleCase).ToArray(),
             CreatedDate = DateTime.Now.ToString(culture),
         };
+        
+        var fileName = $"{DateTime.Now:yyyy-MM-dd} - Standup v{settings.WeekNumber}.md";
+        var targetFile = Path.Join(_config.Path, fileName);
+        var result = template.Render(data);
+        File.WriteAllText(targetFile, result, Encoding.UTF8);
 
-        AnsiConsole.Write(template.Render(data));
+        AnsiConsole.MarkupLineInterpolated($"Created file {Path.GetFileName(targetFile)}");
+        Program.OpenFileInEditor(targetFile, _config);
 
         return (int)ExitCode.Success;
     }

@@ -1,5 +1,5 @@
-﻿# Standups vecka {{WeekNumber}}
-Skapad: {{CreatedDate}}
+﻿# Standups week {{WeekNumber}}
+Created: {{CreatedDate}}
 
 {{#each WeekDays}}
 ## {{this}}
