@@ -48,7 +48,11 @@ public class NewStandupCommand : Command<NewStandupCommand.NewStandupSettings> {
         var result = template.Render(data);
         File.WriteAllText(targetFile, result, Encoding.UTF8);
 
-        AnsiConsole.MarkupLineInterpolated($"Created file {Path.GetFileName(targetFile)}");
+        if(AnsiConsole.Profile.Capabilities.Links)
+            AnsiConsole.MarkupLineInterpolated($"Created file [link=file://{targetFile}]{Path.GetFileName(targetFile)}[/]");
+        else
+            AnsiConsole.MarkupLineInterpolated($"Created file {Path.GetFileName(targetFile)}");
+        
         Program.OpenFileInEditor(targetFile, _config);
 
         return (int)ExitCode.Success;
