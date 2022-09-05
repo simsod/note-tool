@@ -35,7 +35,7 @@ public class NewStandupCommand : Command<NewStandupCommand.NewStandupSettings> {
         var template = _templateService.GetTemplates().Single(x => x.Name == "standup");
 
         var culture = CultureInfo.CurrentCulture;
-        var week = culture.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday);
+        var week = settings.WeekNumber == 0 ?culture.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday): settings.WeekNumber;
         var data = new StandupTemplateModel {
             Date = DateTime.Now.ToShortDateString(),
             WeekNumber = week,
@@ -43,7 +43,7 @@ public class NewStandupCommand : Command<NewStandupCommand.NewStandupSettings> {
             CreatedDate = DateTime.Now.ToString(culture),
         };
         
-        var fileName = $"{DateTime.Now:yyyy-MM-dd} - Standup v{settings.WeekNumber}.md";
+        var fileName = $"{DateTime.Now:yyyy-MM-dd} - Standup v{week}.md";
         var targetFile = Path.Join(_config.Path, fileName);
         var result = template.Render(data);
         File.WriteAllText(targetFile, result, Encoding.UTF8);

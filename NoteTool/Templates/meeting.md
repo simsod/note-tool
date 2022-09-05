@@ -1,3 +1,3 @@
 ﻿# {{Topic}}
 Created: {{CreatedDate}}
-
+Attending: 
