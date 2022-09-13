@@ -31,28 +31,33 @@ public class NewStandupCommand : Command<NewStandupCommand.NewStandupSettings> {
         public string[]? WeekDays { get; init; }
     }
 
-    public override int Execute([NotNull]CommandContext context, [NotNull]NewStandupSettings settings) {
+    public override int Execute([NotNull] CommandContext context, [NotNull] NewStandupSettings settings) {
         var template = _templateService.GetTemplates().Single(x => x.Name == "standup");
 
         var culture = CultureInfo.CurrentCulture;
-        var week = settings.WeekNumber == 0 ?culture.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday): settings.WeekNumber;
+        var week = settings.WeekNumber == 0
+            ? culture.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday)
+            : settings.WeekNumber;
         var data = new StandupTemplateModel {
             Date = DateTime.Now.ToShortDateString(),
             WeekNumber = week,
             WeekDays = culture.DateTimeFormat.DayNames.Skip(1).Take(5).Select(culture.TextInfo.ToTitleCase).ToArray(),
             CreatedDate = DateTime.Now.ToString(culture),
         };
-        
+
         var fileName = $"{DateTime.Now:yyyy-MM-dd} - Standup v{week}.md";
         var targetFile = Path.Join(_config.Path, fileName);
         var result = template.Render(data);
-        File.WriteAllText(targetFile, result, Encoding.UTF8);
+        if (!File.Exists(targetFile)) {
+            File.WriteAllText(targetFile, result, Encoding.UTF8);
+            AnsiConsole.MarkupLineInterpolated($"Created file {Path.GetFileName(targetFile).EscapeMarkup()}");
+        }
+        else {
+            AnsiConsole.MarkupLineInterpolated($"{targetFile.EscapeMarkup()}");
+            AnsiConsole.MarkupLineInterpolated($"{Path.GetFileName(targetFile).EscapeMarkup()}");
+        }
 
-        if(AnsiConsole.Profile.Capabilities.Links)
-            AnsiConsole.MarkupLineInterpolated($"Created file [link=file://{targetFile}]{Path.GetFileName(targetFile)}[/]");
-        else
-            AnsiConsole.MarkupLineInterpolated($"Created file {Path.GetFileName(targetFile)}");
-        
+
         Program.OpenFileInEditor(targetFile, _config);
 
         return (int)ExitCode.Success;

@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Spectre.Console" Version="0.44.1-preview.0.29" />
-        <PackageReference Include="Spectre.Console.Cli" Version="0.44.1-preview.0.29" />
+        <PackageReference Include="Spectre.Console" Version="0.44.1-preview.0.42"/>
+        <PackageReference Include="Spectre.Console.Cli" Version="0.44.1-preview.0.42" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0-preview.7.22375.6" />
         <PackageReference Include="Handlebars.net" Version="2.1.2" />
         <PackageReference Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00016" />

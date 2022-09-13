@@ -44,10 +44,7 @@ public class NewGenericCommand : Command<NewGenericCommand.NewGenericSettings> {
 
         File.WriteAllText(targetFile, result, Encoding.UTF8);
 
-        if(AnsiConsole.Profile.Capabilities.Links)
-            AnsiConsole.MarkupLineInterpolated($"Created file [link=file://{targetFile}]{Path.GetFileName(targetFile)}[/]");
-        else
-            AnsiConsole.MarkupLineInterpolated($"Created file {Path.GetFileName(targetFile)}");
+        AnsiConsole.MarkupLineInterpolated($"Created file {Path.GetFileName(targetFile)}");
         
         Program.OpenFileInEditor(targetFile, _config);
         

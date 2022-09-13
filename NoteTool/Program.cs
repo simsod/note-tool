@@ -16,11 +16,6 @@ namespace NoteTool;
 
 static class Program {
     static int Main(string[] args) {
-        // var figlet = new FigletText(FigletFont.Default, "Note");
-        // AnsiConsole.Write(figlet);
-        // AnsiConsole.MarkupLine("By: [b purple]Simon Söderman[/]");
-        // AnsiConsole.WriteLine();        
-        
         var toolConfig = Configuration.Load();
         var templateService = new TemplateService(toolConfig);
         templateService.EnsureTemplates();
