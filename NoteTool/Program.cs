@@ -15,7 +15,7 @@ using Spectre.Console.Cli;
 namespace NoteTool;
 
 static class Program {
-    static int Main(string[] args) {
+    static int Main(string[] args) {                
         var toolConfig = Configuration.Load();
         var templateService = new TemplateService(toolConfig);
         templateService.EnsureTemplates();
@@ -86,7 +86,11 @@ static class Program {
     }
 
     public static void OpenFileInEditor(string file, Configuration config) {
-        var psi = new ProcessStartInfo { FileName = "cmd.exe", Arguments = $"/c {config.OpenWith} \"{file}\"" };
+        ProcessStartInfo psi;
+        if(Environment.OSVersion.Platform == PlatformID.Win32NT)
+            psi = new ProcessStartInfo { FileName = "cmd.exe", Arguments = $"/c {config.OpenWith} \"{file}\"" };
+        else
+            psi = new ProcessStartInfo { FileName= config.OpenWith, Arguments = $"\"{file}\""  };
         Process.Start(psi);
     }
 }

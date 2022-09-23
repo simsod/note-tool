@@ -38,6 +38,9 @@ namespace NoteTool {
             if (string.IsNullOrEmpty(config.IndexPath))
                 config.IndexPath = DefaultIndexPath;
 
+            if(string.IsNullOrEmpty(config.TemplatesPath))
+                config.TemplatesPath = DefaultTemplatesPath;
+
             if (!Directory.Exists(config.TemplatesPath))
                 Directory.CreateDirectory(config.TemplatesPath);
         
